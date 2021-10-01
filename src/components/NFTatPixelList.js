@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton'
 import InfoIcon from '@mui/icons-material/Info'
 import { Button } from '@mui/material'
 import { useChangeColor } from "../hooks"
+import { LocalConvenienceStoreOutlined } from '@mui/icons-material'
 
 
 
@@ -39,10 +40,13 @@ export const NFTatPixelList = ({ nftpixelData, openseaUrl, nftatpixelAddress }) 
             const nftatPixel = new Contract(address, abi, provider)
             let listOfPixels = []
             for (let i = 0; i < nftpixelData.result.length; i++) {
-                const tokenURI = await nftatPixel.tokenURI(i)
-                const tokenMetadata = await fetch(tokenURI)
-                const tokenMetadataJson = await tokenMetadata.json()
-                listOfPixels.push({ "image": tokenMetadataJson["image"], "token_id": i, "xLocation": tokenMetadataJson["attributes"][0]["value"], "yLocation": tokenMetadataJson["attributes"][1]["value"] })
+                console.log(nftpixelData.result[i])
+                const tokenURI = nftpixelData.result[i]["token_uri"]
+                let tokenMetadata = nftpixelData.result[i]["metadata"]
+                const tokenMetadataJson = JSON.parse(tokenMetadata)
+                const image = tokenMetadataJson["image"]
+                console.log(tokenMetadataJson)
+                listOfPixels.push({ "image": image, "token_id": nftpixelData.result[i]["token_id"], "xLocation": tokenMetadataJson["attributes"][0]["value"], "yLocation": tokenMetadataJson["attributes"][1]["value"] })
             }
             updatePixelsList(listOfPixels)
         }
@@ -93,7 +97,7 @@ export const NFTatPixelList = ({ nftpixelData, openseaUrl, nftatpixelAddress }) 
                                     loading="lazy"
                                     key={pixel.token_id} />
                                 <ImageListItemBar
-                                    title={`X: ${pixel.xLocation}, Y: ${pixel.yLocation}`}
+                                    title={`Token ID: ${pixel.token_id}, X: ${pixel.xLocation}, Y: ${pixel.yLocation}`}
                                     subtitle="Click Me to Change Color"
                                     position="bottom"
                                     actionIcon={

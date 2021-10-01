@@ -36,8 +36,7 @@ export const ChangeColor = () => {
     const { fetch, data, error, isLoading } = useMoralisWeb3ApiCall(Web3Api.account.getNFTsForContract,
         { chain: networkName, address: account, token_address: nftatPixelAddress }
     )
-    console.log(data)
-
+    // console.log(data)
     return (
         <div>
             <h1 className={classes.title}>Change Color</h1>
