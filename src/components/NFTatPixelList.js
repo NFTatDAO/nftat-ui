@@ -40,12 +40,10 @@ export const NFTatPixelList = ({ nftpixelData, openseaUrl, nftatpixelAddress }) 
             const nftatPixel = new Contract(address, abi, provider)
             let listOfPixels = []
             for (let i = 0; i < nftpixelData.result.length; i++) {
-                console.log(nftpixelData.result[i])
                 const tokenURI = nftpixelData.result[i]["token_uri"]
                 let tokenMetadata = nftpixelData.result[i]["metadata"]
                 const tokenMetadataJson = JSON.parse(tokenMetadata)
                 const image = tokenMetadataJson["image"]
-                console.log(tokenMetadataJson)
                 listOfPixels.push({ "image": image, "token_id": nftpixelData.result[i]["token_id"], "xLocation": tokenMetadataJson["attributes"][0]["value"], "yLocation": tokenMetadataJson["attributes"][1]["value"] })
             }
             updatePixelsList(listOfPixels)
@@ -67,7 +65,6 @@ export const NFTatPixelList = ({ nftpixelData, openseaUrl, nftatpixelAddress }) 
     const handleInputChange = (event) => {
         const newColor = event.target.value === "" ? "" : event.target.value
         setColor(newColor)
-        console.log(newColor)
     }
 
     const handleChangeSubmit = (token_id) => {
